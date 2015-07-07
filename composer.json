@@ -1,0 +1,13 @@
+{
+    "name": "akatzig/ifttt-webhook",
+    "require": {
+        "rmccue/requests": "^1.6",
+        "katzgrau/klogger": "^1.0"
+    },
+    "authors": [
+        {
+            "name": "Andreas Katzig",
+            "email": "akatzig@chimera-entertainment.de"
+        }
+    ]
+}

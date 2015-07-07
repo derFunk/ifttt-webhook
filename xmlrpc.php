@@ -4,6 +4,22 @@ ini_set('display_errors',1);
 $request_body = file_get_contents('php://input');
 $xml = simplexml_load_string($request_body);
 
+// Load Requests and Log Library
+include('vendor/autoload.php');
+
+$logger = new Katzgrau\KLogger\Logger(__DIR__.'/logs');
+
+if (!$xml){
+	$logger->error("XML Payload was null! ");
+	exit();
+}
+
+var_dump($logger);
+var_dump($xml);
+
+$logger->info("Received a call with methodName " . $xml->methodName);
+$logger->info("Request Body: " . $request_body);
+
 switch($xml->methodName)
 {
 
@@ -27,6 +43,9 @@ switch($xml->methodName)
 
 		//@see content in the wordpress docs
 		$content = $xml->params->param[3]->value->struct->member;
+
+		$logger->info("Received content: ", $content);
+
 		foreach($content as $data)
 		{
 			switch((string)$data->name)
@@ -57,9 +76,9 @@ switch($xml->methodName)
 		//Only if we have a valid url
 		if(valid_url($url,true))
 		{
-			// Load Requests Library
-			include('requests/Requests.php');
 			Requests::register_autoloader();
+
+			$logger->info("Now calling ", $url);
 
 			$headers = array('Content-Type' => 'application/json');
 			$response = Requests::post($url, $headers, json_encode($obj));
