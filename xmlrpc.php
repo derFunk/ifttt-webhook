@@ -14,9 +14,6 @@ if (!$xml){
 	exit();
 }
 
-var_dump($logger);
-var_dump($xml);
-
 $logger->info("Received a call with methodName " . $xml->methodName);
 $logger->info("Request Body: " . $request_body);
 
